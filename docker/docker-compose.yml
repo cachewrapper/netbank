@@ -1,0 +1,54 @@
+version: "3.8"
+
+networks:
+  netbank_events:
+    driver: bridge
+  netbank_read:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
+  kafka_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:15.1-alpine
+    container_name: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: postgres
+    networks:
+      - netbank_events
+      - netbank_read
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  kafka:
+    image: bashj79/kafka-kraft:latest
+    container_name: kafka
+    networks:
+      - netbank_events
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_BROKER_ID: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    restart: unless-stopped
