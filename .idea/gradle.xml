@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/Spring/common-backend" />
             <option value="$PROJECT_DIR$/Spring/read-backend-api" />
             <option value="$PROJECT_DIR$/Spring/write-backend-api" />
+            <option value="$PROJECT_DIR$/paper-plugin" />
           </set>
         </option>
       </GradleProjectSettings>

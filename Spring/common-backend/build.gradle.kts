@@ -22,6 +22,7 @@ dependencies {
     api("org.postgresql:postgresql:42.7.8")
     api("org.jetbrains:annotations:26.0.2-1")
     api("com.google.code.gson:gson:2.13.2")
+    api("com.github.ben-manes.caffeine:caffeine:3.2.3")
 
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")

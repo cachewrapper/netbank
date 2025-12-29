@@ -1,0 +1,4 @@
+name: netbank
+version: 1.0
+main: org.cachewrapper.paper.NetbankPaper
+api-version: '1.21.10'

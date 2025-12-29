@@ -3,20 +3,21 @@ package org.cachewrapper.event.impl;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import org.cachewrapper.event.BaseEvent;
+import org.cachewrapper.payload.impl.MoneyReceivePayload;
 import org.cachewrapper.payload.impl.MoneySendPayload;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 @Entity
-@DiscriminatorValue("MONEY_SEND")
-public class MoneySendEvent extends BaseEvent<MoneySendPayload> {
+@DiscriminatorValue("MONEY_RECEIVE")
+public class MoneyReceiveEvent extends BaseEvent<MoneyReceivePayload> {
 
-    public MoneySendEvent(@NotNull UUID aggregateUUID, @NotNull MoneySendPayload payload) {
+    public MoneyReceiveEvent(@NotNull UUID aggregateUUID, @NotNull MoneyReceivePayload payload) {
         super(aggregateUUID, payload);
     }
 
-    public MoneySendEvent() {
+    public MoneyReceiveEvent() {
 
     }
 }

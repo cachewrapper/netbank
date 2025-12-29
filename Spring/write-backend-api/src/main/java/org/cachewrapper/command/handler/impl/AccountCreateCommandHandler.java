@@ -3,6 +3,7 @@ package org.cachewrapper.command.handler.impl;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.command.domain.impl.AccountCreateCommand;
 import org.cachewrapper.command.handler.CommandHandler;
+import org.cachewrapper.event.impl.AccountCacheEventRebuilder;
 import org.cachewrapper.event.impl.AccountCreatedEvent;
 import org.cachewrapper.event.BaseEvent;
 import org.cachewrapper.payload.impl.AccountCreatedPayload;
@@ -16,6 +17,7 @@ public class AccountCreateCommandHandler implements CommandHandler<AccountCreate
 
     private final KafkaTemplate<String, BaseEvent<?>> kafkaTemplate;
     private final EventRepository eventRepository;
+    private final AccountCacheEventRebuilder accountCacheEventRebuilder;
 
     @Override
     public void handle(AccountCreateCommand command) {
@@ -27,5 +29,6 @@ public class AccountCreateCommandHandler implements CommandHandler<AccountCreate
 
         eventRepository.save(accountCreateEvent);
         kafkaTemplate.send("account-created", accountCreateEvent);
+        accountCacheEventRebuilder.applyEvent(accountUUID, accountCreateEvent);
     }
 }
