@@ -16,17 +16,6 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<BaseEvent<?>, UUID> {
 
     @Query("""
-                SELECT event
-                FROM BaseEvent event
-                WHERE event.aggregateUUID = :aggregateUUID
-                ORDER BY event.createdAt DESC
-            """)
-    Optional<BaseEvent<?>> findFirstByAggregateUUIDAndTypeOrderByCreatedAtDesc(
-            @Param("aggregateUUID") UUID aggregateUUID,
-            @Param("type") Class<? extends BaseEvent<?>> type
-    );
-
-    @Query("""
             SELECT event
             FROM BaseEvent event
             WHERE event.aggregateUUID = :aggregateUUID

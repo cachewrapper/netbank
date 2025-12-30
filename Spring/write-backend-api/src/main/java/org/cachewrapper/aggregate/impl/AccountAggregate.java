@@ -32,16 +32,13 @@ public class AccountAggregate implements Aggregate {
     private final AccountCreateCommandHandler accountCreateCommandHandler;
     private final MoneySendCommandHandler moneySendCommandHandler;
 
-    private final EventRepository eventRepository;
     private final AccountCacheEventRebuilder accountCacheEventRebuilder;
 
     public ResponseEntity<String> createAccount(@NotNull AccountCreateCommand accountCreateCommand) {
         var userUUID = accountCreateCommand.userUUID();
-        var lastAccountCreatedEvent = eventRepository
-                .findFirstByAggregateUUIDAndTypeOrderByCreatedAtDesc(userUUID, AccountCreatedEvent.class)
-                .orElse(null);
+        var account = accountCacheEventRebuilder.rebuild(userUUID);
 
-        if (lastAccountCreatedEvent != null) {
+        if (account != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ACCOUNT_CONFLICT);
         }
 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/Spring/read-backend-api/src/main/resources/flyway/migration/V2__create_accounts_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/Spring/read-backend-api/src/main/resources/flyway/migration/V4__add_username_colum_in_accounts.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Spring/write-backend-api/src/main/resources/flyway/migration/V1__create_events_table.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Spring/write-backend-api/src/main/resources/flyway/migration/V3__create_account_replica_table.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/docker/postgres/01-init.sql" dialect="GenericSQL" />

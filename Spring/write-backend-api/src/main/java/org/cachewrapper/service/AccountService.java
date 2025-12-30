@@ -17,11 +17,17 @@ public class AccountService {
 
     private final AccountAggregate accountAggregate;
 
-    public ResponseEntity<String> creatAccount(@NotNull UUID userUUID, @NotNull BigDecimal balance) {
-        var accountCreateCommand = new AccountCreateCommand(userUUID, balance);
+    @NotNull
+    public ResponseEntity<String> creatAccount(
+            @NotNull UUID userUUID,
+            @NotNull String username,
+            @NotNull BigDecimal balance
+    ) {
+        var accountCreateCommand = new AccountCreateCommand(userUUID, username, balance);
         return accountAggregate.createAccount(accountCreateCommand);
     }
 
+    @NotNull
     public ResponseEntity<String> sendMoney(
             @NotNull UUID senderAccountUUID,
             @NotNull UUID receiverAccountUUID,

@@ -23,9 +23,10 @@ public class AccountCreateEventListener implements Listener<AccountCreatedEvent>
         var payload = event.getPayload();
 
         var userUUID = payload.userUUID();
+        var username = payload.username();
         var balance = payload.balance();
 
-        var account = new Account(userUUID, balance);
+        var account = new Account(userUUID, username, balance);
         accountRepository.save(account);
     }
 }

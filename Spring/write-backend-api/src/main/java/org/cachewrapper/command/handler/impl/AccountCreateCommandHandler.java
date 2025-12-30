@@ -22,9 +22,10 @@ public class AccountCreateCommandHandler implements CommandHandler<AccountCreate
     @Override
     public void handle(AccountCreateCommand command) {
         var accountUUID = command.userUUID();
+        var username = command.username();
         var balance = command.balance();
 
-        var accountCreatedPayload = new AccountCreatedPayload(accountUUID, balance);
+        var accountCreatedPayload = new AccountCreatedPayload(accountUUID, username, balance);
         var accountCreateEvent = new AccountCreatedEvent(accountUUID, accountCreatedPayload);
 
         eventRepository.save(accountCreateEvent);

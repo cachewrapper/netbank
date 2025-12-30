@@ -5,7 +5,8 @@ import org.cachewrapper.paper.rest.request.RequestPayload;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record AccountCreateRequest(
-        UUID userUUID,
-        BigDecimal balance
+public record MoneySendPayload(
+        UUID senderAccountUUID,
+        UUID receiverAccountUUID,
+        BigDecimal transactionAmount
 ) implements RequestPayload {}

@@ -21,10 +21,14 @@ public class Account {
     @Column(name = "account_uuid")
     private UUID accountUUID;
 
+    @Column(name = "username")
+    private String username;
+
     private BigDecimal balance;
 
-    public Account(@NotNull UUID accountUUID, @NotNull BigDecimal balance) {
+    public Account(@NotNull UUID accountUUID, @NotNull String username, @NotNull BigDecimal balance) {
         this.accountUUID = accountUUID;
+        this.username = username;
         this.balance = balance;
     }
 }

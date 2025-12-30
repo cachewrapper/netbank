@@ -7,5 +7,6 @@ import java.util.UUID;
 
 public record AccountCreateCommand(
         UUID userUUID,
+        String username,
         BigDecimal balance
 ) implements Command {}
