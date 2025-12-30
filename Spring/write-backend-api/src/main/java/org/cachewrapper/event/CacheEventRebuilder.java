@@ -26,12 +26,10 @@ public abstract class CacheEventRebuilder<T> extends EventRebuilder<T> {
         var events = eventRepository.findAllByAggregateUUIDOrderByCreatedAtAsc(aggregateUUID);
 
         for (var event : events) {
-            System.out.println(event.toString());
             getMetadata().rebuilderMap().get(event.getClass()).accept(domain, event);
         }
 
         cachedDataMap.put(aggregateUUID, domain);
-        System.out.println(domain.toString());
         return domain;
     }
 
