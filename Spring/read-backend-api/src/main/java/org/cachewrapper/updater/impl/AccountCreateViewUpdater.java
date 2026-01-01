@@ -2,9 +2,9 @@ package org.cachewrapper.updater.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.event.impl.AccountCreatedEvent;
-import org.cachewrapper.updater.ViewUpdater;
 import org.cachewrapper.model.AccountViewModel;
 import org.cachewrapper.repository.AccountViewRepository;
+import org.cachewrapper.updater.ViewUpdater;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

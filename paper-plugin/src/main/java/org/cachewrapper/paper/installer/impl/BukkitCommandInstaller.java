@@ -5,8 +5,8 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.paper.command.PaperCommand;
-import org.cachewrapper.paper.instantiator.impl.PaperCommandManagerInstantiator;
 import org.cachewrapper.paper.installer.Installer;
+import org.cachewrapper.paper.instantiator.impl.PaperCommandManagerInstantiator;
 import org.reflections.Reflections;
 
 @Singleton

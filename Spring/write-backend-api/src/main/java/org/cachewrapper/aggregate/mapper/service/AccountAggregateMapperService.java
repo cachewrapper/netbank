@@ -2,10 +2,10 @@ package org.cachewrapper.aggregate.mapper.service;
 
 import org.cachewrapper.aggregate.impl.AccountAggregate;
 import org.cachewrapper.aggregate.mapper.AggregateMapperMetadata;
+import org.cachewrapper.aggregate.mapper.AggregateMapperService;
 import org.cachewrapper.event.impl.AccountCreatedEvent;
 import org.cachewrapper.event.impl.MoneyReceiveEvent;
 import org.cachewrapper.event.impl.MoneySendEvent;
-import org.cachewrapper.aggregate.mapper.AggregateMapperService;
 import org.cachewrapper.repository.aggregate.impl.AccountAggregateRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;

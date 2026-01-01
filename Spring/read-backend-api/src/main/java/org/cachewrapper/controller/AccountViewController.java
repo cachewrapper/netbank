@@ -3,7 +3,10 @@ package org.cachewrapper.controller;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.model.AccountViewModel;
 import org.cachewrapper.repository.AccountViewRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 

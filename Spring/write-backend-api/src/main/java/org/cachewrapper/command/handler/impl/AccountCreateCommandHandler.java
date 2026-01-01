@@ -1,11 +1,11 @@
 package org.cachewrapper.command.handler.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.cachewrapper.aggregate.mapper.service.AccountAggregateMapperService;
 import org.cachewrapper.command.domain.impl.AccountCreateCommand;
 import org.cachewrapper.command.handler.CommandHandler;
-import org.cachewrapper.aggregate.mapper.service.AccountAggregateMapperService;
-import org.cachewrapper.event.impl.AccountCreatedEvent;
 import org.cachewrapper.event.BaseEvent;
+import org.cachewrapper.event.impl.AccountCreatedEvent;
 import org.cachewrapper.event.payload.impl.AccountCreatedPayload;
 import org.cachewrapper.repository.event.EventRepository;
 import org.jetbrains.annotations.NotNull;

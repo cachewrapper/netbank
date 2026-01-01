@@ -5,10 +5,10 @@ import com.google.inject.Injector;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cachewrapper.paper.guice.PluginModule;
-import org.cachewrapper.paper.instantiator.Instantiator;
-import org.cachewrapper.paper.instantiator.impl.PaperCommandManagerInstantiator;
 import org.cachewrapper.paper.installer.Installer;
 import org.cachewrapper.paper.installer.impl.BukkitCommandInstaller;
+import org.cachewrapper.paper.instantiator.Instantiator;
+import org.cachewrapper.paper.instantiator.impl.PaperCommandManagerInstantiator;
 
 import java.util.List;
 

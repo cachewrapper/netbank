@@ -1,12 +1,15 @@
 package org.cachewrapper.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.cachewrapper.command.service.impl.AccountCommandService;
 import org.cachewrapper.command.service.impl.MoneyCommandService;
 import org.cachewrapper.controller.request.AccountCreateRequest;
-import org.cachewrapper.command.service.impl.AccountCommandService;
 import org.cachewrapper.controller.request.MoneySendRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for user-related operations (version 1).
