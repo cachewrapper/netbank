@@ -1,79 +1,103 @@
 package org.cachewrapper.aggregate.impl;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.cachewrapper.aggregate.Aggregate;
-import org.cachewrapper.command.domain.impl.AccountCreateCommand;
-import org.cachewrapper.command.domain.impl.MoneySendCommand;
-import org.cachewrapper.command.handler.impl.AccountCreateCommandHandler;
-import org.cachewrapper.command.handler.impl.MoneySendCommandHandler;
-import org.cachewrapper.event.impl.AccountCacheEventRebuilder;
-import org.cachewrapper.exception.BalanceLessThanZeroException;
 import org.cachewrapper.event.impl.AccountCreatedEvent;
-import org.cachewrapper.repository.EventRepository;
+import org.cachewrapper.event.impl.MoneyReceiveEvent;
+import org.cachewrapper.event.impl.MoneySendEvent;
+import org.cachewrapper.exception.BalanceLessThanZeroException;
+import org.cachewrapper.exception.TransactionAmountThanZeroException;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
-@RequiredArgsConstructor
-public class AccountAggregate implements Aggregate {
+/**
+ * Aggregate representing a bank account.
+ *
+ * <p>This aggregate handles the application of domain events that modify its state:
+ * <ul>
+ *     <li>{@link AccountCreatedEvent} — initializes the account.</li>
+ *     <li>{@link MoneySendEvent} — decreases the balance when money is sent.</li>
+ *     <li>{@link MoneyReceiveEvent} — increases the balance when money is received.</li>
+ * </ul>
+ *
+ * <p>Validation is performed on the balance and transaction amounts to ensure
+ * that no invalid state (e.g., negative balances) occurs.
+ */
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "account_aggregates")
+public class AccountAggregate extends Aggregate {
 
-    private static final String ACCOUNT_CREATED = "Account created successfully";
+    @Column(name = "username")
+    private String username;
 
-    private static final String ACCOUNT_CONFLICT = "Account is already exists";
-    private static final String ACCOUNT_NOT_EXISTS = "Account is not exists";
+    @Column(name = "balance")
+    private BigDecimal balance;
 
-    private static final String TRANSACTION_AMOUNT_ERROR = "Transaction amount must greater than zero";
-    private static final String TRANSACTION_SENT = "Money sent successfully";
+    /**
+     * Applies the account creation event to initialize the aggregate state.
+     *
+     * @param accountCreatedEvent the event containing the account creation data
+     * @throws BalanceLessThanZeroException if the initial balance is negative
+     */
+    @NotNull
+    public void applyAccountCreatedEvent(@NotNull AccountCreatedEvent accountCreatedEvent) {
+        var accountCreatedPayload = accountCreatedEvent.getPayload();
 
-    private final AccountCreateCommandHandler accountCreateCommandHandler;
-    private final MoneySendCommandHandler moneySendCommandHandler;
+        var accountUUID = accountCreatedPayload.accountUUID();
+        var username = accountCreatedPayload.username();
+        var balance = accountCreatedPayload.balance();
 
-    private final AccountCacheEventRebuilder accountCacheEventRebuilder;
-
-    public ResponseEntity<String> createAccount(@NotNull AccountCreateCommand accountCreateCommand) {
-        var userUUID = accountCreateCommand.userUUID();
-        var account = accountCacheEventRebuilder.rebuild(userUUID);
-
-        if (account != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ACCOUNT_CONFLICT);
-        }
-
-        var balance = accountCreateCommand.balance();
         if (balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new BalanceLessThanZeroException();
         }
 
-        accountCreateCommandHandler.handle(accountCreateCommand);
-        return ResponseEntity.ok().body(ACCOUNT_CREATED);
+        this.aggregateUUID = accountUUID;
+        this.username = username;
+        this.balance = balance;
     }
 
-    public ResponseEntity<String> sendMoney(@NotNull MoneySendCommand moneySendCommand) {
-        var senderAccountUUID = moneySendCommand.senderAccountUUID();
-        var receiverAccountUUID = moneySendCommand.receiverAccountUUID();
-        var transactionAmount = moneySendCommand.transactionAmount();
+    /**
+     * Applies a money send event, decreasing the balance by the transaction amount.
+     *
+     * @param moneySendEvent the event containing the transaction data
+     * @throws TransactionAmountThanZeroException if the transaction amount is negative
+     */
+    public void applyMoneySendEvent(@NotNull MoneySendEvent moneySendEvent) {
+        var moneySendPayload = moneySendEvent.getPayload();
+        var transactionAmount = moneySendPayload.transactionAmount();
 
         if (transactionAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BalanceLessThanZeroException();
+            throw new TransactionAmountThanZeroException();
         }
 
-        if (senderAccountUUID.equals(receiverAccountUUID)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        balance = balance.subtract(transactionAmount);
+    }
+
+    /**
+     * Applies a money receive event, increasing the balance by the transaction amount.
+     *
+     * @param moneyReceiveEvent the event containing the transaction data
+     * @throws TransactionAmountThanZeroException if the transaction amount is negative
+     */
+    public void applyMoneyReceiveEvent(@NotNull MoneyReceiveEvent moneyReceiveEvent) {
+        var moneyReceivePayload = moneyReceiveEvent.getPayload();
+        var transactionAmount = moneyReceivePayload.transactionAmount();
+
+        if (transactionAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new TransactionAmountThanZeroException();
         }
 
-        var senderAccount = accountCacheEventRebuilder.rebuild(senderAccountUUID);
-        if (senderAccount == null) {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
-        }
-
-        if (senderAccount.getBalance().compareTo(transactionAmount) <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(TRANSACTION_AMOUNT_ERROR);
-        }
-
-        moneySendCommandHandler.handle(moneySendCommand);
-        return ResponseEntity.ok().body(TRANSACTION_SENT);
+        balance = balance.add(transactionAmount);
     }
 }

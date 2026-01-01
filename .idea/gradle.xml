@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/paper-plugin" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="true" />
       </GradleProjectSettings>
     </option>
   </component>

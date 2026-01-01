@@ -6,7 +6,6 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.cachewrapper.paper.rest.request.RequestPayload;
 import org.jetbrains.annotations.NotNull;
 
-// TODO: REWRITE SYSTEM TO EVENT-DRIVEN
 public interface RestCrudApi<K, T> {
 
     String WRITE_HTTP_URL = "http://localhost:8081%s%s";

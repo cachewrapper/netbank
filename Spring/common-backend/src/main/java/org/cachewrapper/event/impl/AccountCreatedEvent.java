@@ -3,7 +3,7 @@ package org.cachewrapper.event.impl;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import org.cachewrapper.event.BaseEvent;
-import org.cachewrapper.payload.impl.AccountCreatedPayload;
+import org.cachewrapper.event.payload.impl.AccountCreatedPayload;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;

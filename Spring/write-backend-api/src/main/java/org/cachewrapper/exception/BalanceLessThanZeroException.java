@@ -1,4 +1,3 @@
 package org.cachewrapper.exception;
 
-public class BalanceLessThanZeroException extends RuntimeException {
-}
+public class BalanceLessThanZeroException extends RuntimeException {}

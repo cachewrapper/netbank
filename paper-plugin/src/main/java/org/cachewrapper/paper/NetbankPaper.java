@@ -7,8 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.cachewrapper.paper.guice.PluginModule;
 import org.cachewrapper.paper.instantiator.Instantiator;
 import org.cachewrapper.paper.instantiator.impl.PaperCommandManagerInstantiator;
-import org.cachewrapper.paper.register.Installer;
-import org.cachewrapper.paper.register.impl.BukkitCommandInstaller;
+import org.cachewrapper.paper.installer.Installer;
+import org.cachewrapper.paper.installer.impl.BukkitCommandInstaller;
 
 import java.util.List;
 
