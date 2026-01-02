@@ -1,9 +1,8 @@
-package org.cachewrapper.command.service.impl;
+package org.cachewrapper.command.coordinator;
 
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.command.domain.impl.MoneySendCommand;
 import org.cachewrapper.command.handler.impl.MoneySendCommandHandler;
-import org.cachewrapper.command.service.CommandService;
 import org.cachewrapper.repository.aggregate.impl.AccountAggregateRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,7 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
-public class MoneyCommandService implements CommandService {
+public class MoneyCommandCoordinator {
 
     private final MoneySendCommandHandler moneySendCommandHandler;
     private final AccountAggregateRepository accountAggregateRepository;

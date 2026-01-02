@@ -1,8 +1,8 @@
 package org.cachewrapper.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.cachewrapper.command.service.impl.AccountCommandService;
-import org.cachewrapper.command.service.impl.MoneyCommandService;
+import org.cachewrapper.command.coordinator.AccountCommandCoordinator;
+import org.cachewrapper.command.coordinator.MoneyCommandCoordinator;
 import org.cachewrapper.controller.request.AccountCreateRequest;
 import org.cachewrapper.controller.request.MoneySendRequest;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserV1Controller {
 
-    private final AccountCommandService accountCommandService;
-    private final MoneyCommandService moneyCommandService;
+    private final AccountCommandCoordinator accountCommandService;
+    private final MoneyCommandCoordinator moneyCommandService;
 
     /**
      * Creates a new user account.
      * <p>
      * Receives an {@link AccountCreateRequest} containing the UUID, username, and initial balance.
-     * Delegates account creation to {@link AccountCommandService} and returns the appropriate
+     * Delegates account creation to {@link AccountCommandCoordinator} and returns the appropriate
      * HTTP response:
      * <ul>
      *     <li>201 CREATED if account is successfully created</li>
@@ -53,7 +53,7 @@ public class UserV1Controller {
      * Sends money from one account to another.
      * <p>
      * Receives a {@link MoneySendRequest} containing sender and receiver UUIDs and the transaction amount.
-     * Delegates the transfer logic to {@link MoneyCommandService} and returns the appropriate HTTP response:
+     * Delegates the transfer logic to {@link MoneyCommandCoordinator} and returns the appropriate HTTP response:
      * <ul>
      *     <li>200 OK if transaction succeeds</li>
      *     <li>404 NOT FOUND if either account does not exist</li>

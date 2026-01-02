@@ -1,9 +1,8 @@
-package org.cachewrapper.command.service.impl;
+package org.cachewrapper.command.coordinator;
 
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.command.domain.impl.AccountCreateCommand;
 import org.cachewrapper.command.handler.impl.AccountCreateCommandHandler;
-import org.cachewrapper.command.service.CommandService;
 import org.cachewrapper.repository.aggregate.impl.AccountAggregateRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
-public class AccountCommandService implements CommandService {
+public class AccountCommandCoordinator {
 
     private final AccountCreateCommandHandler accountCreateCommandService;
     private final AccountAggregateRepository accountAggregateRepository;
